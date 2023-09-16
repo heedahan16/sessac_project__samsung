@@ -19,4 +19,24 @@ while page < 5:
     respon = requests.get(url, headers=headers)
     soup = BeautifulSoup(respon.text, "html.parser")
 
-    print(soup)
+    for tr in soup.select("tr"):
+        if (tr.select_one("span") != None) and (tr.select_one("span").text[:7]) == "2023.08":
+            date = tr.select_one("span").text
+            close_price = tr.select("span.tah.p11")[0].text
+            up_down = tr.select("span.tah.p11")[1].text.replace("\n", "").strip()
+            open_price = tr.select("span.tah.p11")[2].text
+            high_price = tr.select("span.tah.p11")[3].text
+            low_price = tr.select("span.tah.p11")[4].text
+            volume = tr.select("span.tah.p11")[5].text
+
+            stock.append({
+                "날짜": date
+                , "종가": close_price
+                , "전일비": up_down
+                , "시가": open_price
+                , "고가": high_price
+                , "저가": low_price
+                , "거래량": volume
+            })            
+
+print(stock)
