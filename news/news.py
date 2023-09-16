@@ -7,4 +7,12 @@ headers = {
 response = requests.get("https://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=001", headers=headers)
 beautiful = BeautifulSoup(response.text, "html.parser")
 
-print(beautiful)
+for day in range(1, 32):
+    if day < 10:
+        day = "0" + str(day)
+    date = "202308" + str(day)
+    print(date)
+    respon = requests.get("https://news.naver.com/main/list.naver?mode=LPOD&mid=sec&oid=001&date=" + str(date), headers=headers)
+    soup = BeautifulSoup(respon.text, "html.parser")
+    
+    print(soup)
