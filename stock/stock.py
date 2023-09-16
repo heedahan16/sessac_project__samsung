@@ -47,3 +47,13 @@ stock
 with open("stock.json", "w", encoding="utf-8-sig") as f:
     json.dump(stock, f, ensure_ascii = False)
 
+import csv
+
+with open("stock.json", "r", encoding="utf-8-sig") as input_file, open("stock.csv", "w", newline="") as output_file:
+    data = json.load(input_file)
+
+    f = csv.writer(output_file)
+
+    for datum in data:
+        f.writerow([datum["날짜"], datum["종가"], datum["전일비"], datum["시가"], datum["고가"], datum["저가"], datum["거래량"]])
+    
