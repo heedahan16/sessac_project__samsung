@@ -40,3 +40,10 @@ while page < 5:
             })            
 
 print(stock)
+
+
+import json
+stock
+with open("stock.json", "w", encoding="utf-8-sig") as f:
+    json.dump(stock, f, ensure_ascii = False)
+
