@@ -5,17 +5,32 @@ headers = {
     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
 }
 
-response = requests.get("https://news.naver.com/main/officeList.naver", headers=headers)
+response = requests.get("https://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=001", headers=headers)
 beautiful = (response.text, "html.parser")
 
-print(beautiful)
+oid = {
+    "뉴스1": "421"
+    , "뉴시스": "003"
+    , "연합뉴스": "001"
+    , "연합뉴스TV": "422"
+    , "채널A": "449"
+    , "한국경제TV": "215"
+    , "JTBC": "437"
+    , "KBS": "056"
+    , "MBC": "214"
+    , "MBN": "057"
+    , "SBS": "055"
+    , "SBS Biz": "374"
+    , "TV조선": "448"
+    , "YTN": "052"
+}
 
-oid = "001"
+oid = oid["연합뉴스"]
 
 respon = requests.get("https://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=" + oid, headers=headers)
 soup = BeautifulSoup(respon.text, "html.parser")
 
-
+print(soup)
 print(soup.select("div#groupOfficeList table.group_table"))
 
 for day in range(1, 32):
