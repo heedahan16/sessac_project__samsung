@@ -74,9 +74,17 @@ for date in range(1, 32):
         else:
             article = dl.select_one("dt a").attrs["href"]
 
-            res = requests.get(article, headers=headers)
-            bs = BeautifulSoup(res.text, "html.parser")
+        res = requests.get(article, headers=headers)
+        bs = BeautifulSoup(res.text, "html.parser")
 
-        print(article)
+        try:
+            title = bs.select_one("div#ct h2#title_area").text
+        except:
+            try:
+                title = bs.select_one("div#content h4.title").text
+            except:
+                title = bs.select_one("div#content h2.end_tit").text.replace("\n", "").strip()
 
+        print(title)
+        
     page += 1
