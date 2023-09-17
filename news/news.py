@@ -26,19 +26,20 @@ oid = {
 }
 
 oid = oid["연합뉴스"]
-
-respon = requests.get("https://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid=" + oid, headers=headers)
-soup = BeautifulSoup(respon.text, "html.parser")
-
-print(soup)
-print(soup.select("div#groupOfficeList table.group_table"))
+year = 2023
+month = 8
+if month < 10:
+    month = "0" + str(month)
+else:
+    month = str(month)
 
 for day in range(1, 32):
     if day < 10:
         day = "0" + str(day)
-    date = "202308" + str(day)
-    
-    res = requests.get("https://news.naver.com/main/list.naver?mode=LPOD&mid=sec&oid=001&date=" + str(date), headers=headers)
-    bs = BeautifulSoup(res.text, "html.parser")
-    
-    # print(bs.select("ul.type06_headline li dl"))
+    date = str(year) + str(month) + str(day)
+    # print(date)
+        
+    url = "https://news.naver.com/main/list.nhn?mode=LPOD&mid=sec&oid={}&date={}".format(oid, date)
+    respon = requests.get(url, headers=headers)
+    soup = BeautifulSoup(respon.text, "html.parser")
+    print(soup)
