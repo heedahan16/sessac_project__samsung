@@ -77,14 +77,22 @@ for date in range(1, 32):
         res = requests.get(article, headers=headers)
         bs = BeautifulSoup(res.text, "html.parser")
 
+        print(article)
+
         try:
-            title = bs.select_one("div#ct h2#title_area").text
+            title = bs.select_one("div#ct h2").text
+            content = bs.select_one("div#contents article#dic_area")
         except:
             try:
-                title = bs.select_one("div#content h4.title").text
+                title = bs.select_one("div#content h4").text
+                content = bs.select_one("div#content div#newsEndContents")
             except:
-                title = bs.select_one("div#content h2.end_tit").text.replace("\n", "").strip()
+                title = bs.select_one("div#content h2").text.replace("\n", "").strip()
+                try:
+                    content = bs.select_one("div.end_body_wrp div#articBody")
+                except:
+                    content = bs.select_one("div.end_body_wrp")
 
-        print(title)
-        
+        print(content)
+
     page += 1
