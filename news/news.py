@@ -35,49 +35,64 @@ if month < 10:
 else:
     month = str(month)
 
-for date in range(1, 32):
-    if date < 10:
-        date = "0" + str(date)
-    else:
-        date = str(date)
+date = 1
+# for date in range(1, 32):
+if date < 10:
+    date = "0" + str(date)
+else:
+    date = str(date)
 
-    date = str(year) + str(month) + str(date)
-    print("date: ", date)
+date = str(year) + str(month) + str(date)
+print("date: ", date)
 
-    page = 1
-    print("page: ", page)
+page= 1
+print("page: ", page)
 
-    while True:
+while True:
 
-        params = {
-            "mode":"LPOD"
-            , "mid":"sec"
-            , "oid": oid
-            , "date": date
-            , "page": page
-        }
+    params = {
+        "mode":"LPOD"
+        , "mid":"sec"
+        , "oid": oid
+        , "date": date
+        , "page": page
+    }
 
-        respon = requests.get("https://news.naver.com/main/list.naver", params=params, headers=headers)
-        soup = BeautifulSoup(respon.text, "html.parser")
+    respon = requests.get("https://news.naver.com/main/list.naver", params=params, headers=headers)
+    soup = BeautifulSoup(respon.text, "html.parser")
 
-        now_page = soup.select_one("div.paging strong").text
+    now_page = soup.select_one("div.paging strong").text
 
-        if now_page != page:
-            break
+    if now_page != page:
+        break
 
-    for dl in soup.select("div.list_body ul li dl"):
-        if dl.select_one("dt.photo a") != None:
-            article = dl.select_one("dt.photo a").attrs["href"]
+for dl in soup.select("div.list_body ul li dl"):
+    try:
+        # if dl.select_one("dt.photo a") != None:
+        article = dl.select_one("dt.photo a").attrs["href"]
+    except:
+        article = dl.select_one("dt a").attrs["href"]
+
+    res = requests.get(article, headers=headers)
+    bs = BeautifulSoup(res.text, "html.parser")
+    
+    try:
+        print(bs.select_one("div.news_headline h4").text)
+    except:
+        print("h4 is None")
+
+
+    # try:
+    #     title = bs.select_one("div.media_end_head_title span").text
+    #     # content = str(bs.select_one("div#ct article#dic_area"))
+    #     # reg = "<br\/><br\/> * |[a-zA-Z0-9]*@.*|<[^>]*>"
+    #     # content_reg = re.sub(reg, "", content).replace("\n", "").strip()
+    #     # print(content_reg)
+    # except:
+    #     title = bs.select_one("div.news_headline h4").text
             
-            res = requests.get(article, headers=headers)
-            bs = BeautifulSoup(res.text, "html.parser")
 
-            # print(bs)
-        
-
-            
     page += 1
-
 
 
                 
