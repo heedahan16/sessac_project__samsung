@@ -77,8 +77,6 @@ for date in range(1, 32):
         res = requests.get(article, headers=headers)
         bs = BeautifulSoup(res.text, "html.parser")
 
-        print(article)
-
         try:
             title = bs.select_one("div#ct h2").text
             content = bs.select_one("div#contents article#dic_area")
@@ -93,6 +91,8 @@ for date in range(1, 32):
                 except:
                     content = bs.select_one("div.end_body_wrp")
 
-        print(content)
+        reg = "[a-zA-Z]* *ⓒ.*|<br\/><br\/> * |[a-zA-Z0-9]*@.*|<[^>]*>"
+        content_reg = re.sub(reg, "", str(content)).replace("\n", "").strip()
+        print(content_reg)
 
     page += 1
