@@ -91,10 +91,8 @@ for date in range(1, 32):
                     # 스포츠 기사
                     title = bs.select_one("div#content h4").text
                     content = bs.select_one("div#newsEndContents")
-<<<<<<< HEAD
                     
-                except:
-                    print("None!!!!!!!!!!!!!!!!!!")
+
                 # except:
                 #     print("None!!!!!!!!!!!!!!!!!!!!!!")
                 #     try :
@@ -106,7 +104,6 @@ for date in range(1, 32):
                 #             content = bs.select_one("div.end_body_wrp div#articBody")
                 #         except:
                 #             content = bs.select_one("div.end_body_wrp")
-=======
                 except:
                     title = bs.select_one("div#content h2").text.replace("\n", "").strip()
                     content = bs.select_one("div#contents article.dic_area")
@@ -114,7 +111,6 @@ for date in range(1, 32):
                     #     content = bs.select_one("div.end_body_wrp div#articBody")
                     # except:
                     #     content = bs.select_one("div.end_body_wrp")
->>>>>>> 201d11c1a10dc0ad01a7eb04cd7ea3faf8ba9d25
 
             content = str(content)
 
@@ -145,13 +141,9 @@ for date in range(1, 32):
             content = re.sub(button, "", content)
             content= re.sub(tag, "", content)
 
-<<<<<<< HEAD
             # print("title: ", title)
             # print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
-            print()
-            print()
-
-
+    
             res = requests.get("https://sports.like.naver.com/v1/search/contents?suppress_response_codes=true&callback=jQuery111304373371927169414_1695020995540&q=SPORTS%5Bne_001_0014106287%5D%7CJOURNALIST%5B56735(period)%5D%7CSPORTS_MAIN%5Bne_001_0014106287%5D&isDuplication=false&cssIds=MULTI_PC%2CSPORTS_PC&_=1695020995541", headers=headers)
 
             data = re.finditer("{.+}", res.text)
@@ -159,16 +151,9 @@ for date in range(1, 32):
                 # print(datum.group())
 
                 result = json.loads(datum.group())
-                print(result)
-            
+                reaction = result["contents"][0]["reactions"][0]["reactionType"]
+                count = result["contents"][0]["reactions"][0]["count"]
+                print(reaction, count)
             
         page += 1
-=======
-            
-
-            print("title: ", title)
-            print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
-            print()
-            print()
->>>>>>> 201d11c1a10dc0ad01a7eb04cd7ea3faf8ba9d25
 
