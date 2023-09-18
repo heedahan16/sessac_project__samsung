@@ -91,6 +91,7 @@ for date in range(1, 32):
                     # 스포츠 기사
                     title = bs.select_one("div#content h4").text
                     content = bs.select_one("div#newsEndContents")
+<<<<<<< HEAD
                     
                 except:
                     print("None!!!!!!!!!!!!!!!!!!")
@@ -105,6 +106,15 @@ for date in range(1, 32):
                 #             content = bs.select_one("div.end_body_wrp div#articBody")
                 #         except:
                 #             content = bs.select_one("div.end_body_wrp")
+=======
+                except:
+                    title = bs.select_one("div#content h2").text.replace("\n", "").strip()
+                    content = bs.select_one("div#contents article.dic_area")
+                    # try:
+                    #     content = bs.select_one("div.end_body_wrp div#articBody")
+                    # except:
+                    #     content = bs.select_one("div.end_body_wrp")
+>>>>>>> 201d11c1a10dc0ad01a7eb04cd7ea3faf8ba9d25
 
             content = str(content)
 
@@ -135,6 +145,7 @@ for date in range(1, 32):
             content = re.sub(button, "", content)
             content= re.sub(tag, "", content)
 
+<<<<<<< HEAD
             # print("title: ", title)
             # print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
             print()
@@ -152,4 +163,12 @@ for date in range(1, 32):
             
             
         page += 1
+=======
+            
+
+            print("title: ", title)
+            print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
+            print()
+            print()
+>>>>>>> 201d11c1a10dc0ad01a7eb04cd7ea3faf8ba9d25
 
