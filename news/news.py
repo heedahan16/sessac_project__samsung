@@ -75,25 +75,63 @@ for date in range(1, 32):
             else:
                 article = dl.select_one("dt a").attrs["href"]
 
+            print(article)    
+
             res = requests.get(article, headers=headers)
             bs = BeautifulSoup(res.text, "html.parser")
 
             try:
+                # 일반 기사
                 title = bs.select_one("div#ct h2").text
-                content = bs.select_one("div#contents article#dic_area")
+                content = bs.select_one("article#dic_area")
                 
             except:
                 try:
+                    # 스포츠 기사
                     title = bs.select_one("div#content h4").text
-                    content = bs.select_one("div#content div#newsEndContents")
+                    content = bs.select_one("div#newsEndContents")
                 except:
                     title = bs.select_one("div#content h2").text.replace("\n", "").strip()
-                    try:
-                        content = bs.select_one("div.end_body_wrp div#articBody")
-                    except:
-                        content = bs.select_one("div.end_body_wrp")
+                    content = bs.select_one("div#contents article.dic_area")
+                    # try:
+                    #     content = bs.select_one("div.end_body_wrp div#articBody")
+                    # except:
+                    #     content = bs.select_one("div.end_body_wrp")
 
-            reg = "[a-zA-Z]* *ⓒ.*|<br\/><br\/> * |[a-zA-Z0-9]*@.*|<[^>]*>"
-            content_reg = re.sub(reg, "", str(content)).replace("\n", "").strip()
+            content = str(content)
+
+            p = "<p.*>.*<\/p>"
+            br = "<br\/> *"
+            offer = "\[.*\]"
+            day = "[0-9]+\.+[0-9].[0-9].?"
+            email = "[a-zA-Z0-9]*@[a-zA-Z]*\.[a-zA-Z]*\.[a-zA-Z]*+"
+            info = "<!.*>"
+            slogan = ".*연합뉴스\)"
+            reporter = ".* =|.reporter.+|profile.*|<*name.*>"
+            summary = "<[^\>]*><\/.*>"
+            a = "<a.*>.*<\/a>"
+            em = "<em.*>.*"
+            button = "<button.*>.*<\/button>.*"
+            tag = "<[^\>]*>"
+            content = re.sub(p, "", content)
+            content = re.sub(br, "", content)
+            content = re.sub(offer, "", content)
+            content = re.sub(day, "", content)
+            content = re.sub(email, "", content)
+            content = re.sub(info, "", content)
+            content = re.sub(reporter, "", content)
+            content = re.sub(slogan, "", content)
+            content = re.sub(summary, "", content)
+            content = re.sub(a, "", content)
+            content = re.sub(em, "", content)
+            content = re.sub(button, "", content)
+            content= re.sub(tag, "", content)
+
+            
+
+            print("title: ", title)
+            print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
+            print()
+            print()
 
         page += 1
