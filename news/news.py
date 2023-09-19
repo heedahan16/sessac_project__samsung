@@ -88,37 +88,19 @@ for date in range(1, 32):
                 url = "https://news.like.naver.com/v1/search/contents?q=NEWS%5Bne_001_{}%5D".format(article[-10:])
                 RES = requests.get(url, headers=headers)
                 data = json.loads(RES.text)
-                
+                label = data["contents"][0]["reactionTextMap"]["ko"]
+
                 for i in range(len(data["contents"][0]["reactions"])):
                     reaction = data["contents"][0]["reactions"][i]["reactionType"]
                     count = data["contents"][0]["reactions"][i]["count"]
                     print(reaction, count)
-                
-                # print(data["contents"][2])
-                # print(data["contents"][3])
-                
-
-                # print(data["contents"][0]["reactions"][0])
-                # print(data["contents"][0]["reactions"][1])
-                # print(data["contents"][0]["reactions"][2])
-                # print(data["contents"][0]["reactions"][3])
-                # print(data["contents"][0]["reactions"][4])
-                # print(data["contents"][0]["reactions"][5])
-                print()
-                print()
-                print()
-
-
-                print()
-
-
+  
             except:
                 try:
                     # 스포츠 기사
                     title = bs.select_one("div#content h4").text
                     content = bs.select_one("div#newsEndContents")
                     
-
                 # except:
                 #     print("None!!!!!!!!!!!!!!!!!!!!!!")
                 #     try :
@@ -171,10 +153,6 @@ for date in range(1, 32):
             # print("title: ", title)
             # print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
     
-            
 
-            
-
-            
         page += 1
 
