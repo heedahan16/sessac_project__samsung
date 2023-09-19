@@ -85,22 +85,14 @@ for date in range(1, 32):
                 # 일반 기사
                 title = bs.select_one("div#ct h2").text
                 content = bs.select_one("article#dic_area")
-                url = "https://news.like.naver.com/v1/search/contents?q=NEWS%5Bne_001_{}%5D".format(article[-10:])
-                RES = requests.get(url, headers=headers)
-                data = json.loads(RES.text)
-                label = data["contents"][0]["reactionTextMap"]["ko"]
-
-                for i in range(len(data["contents"][0]["reactions"])):
-                    reaction = data["contents"][0]["reactions"][i]["reactionType"]
-                    count = data["contents"][0]["reactions"][i]["count"]
-                    print(reaction, count)
-  
+                    
             except:
                 try:
                     # 스포츠 기사
-                    title = bs.select_one("div#content h4").text
+                    title = bs.select_one("div.news_headline h4").text
                     content = bs.select_one("div#newsEndContents")
-                    
+                    # print(title)
+                    # print(content)
                 # except:
                 #     print("None!!!!!!!!!!!!!!!!!!!!!!")
                 #     try :
@@ -123,36 +115,18 @@ for date in range(1, 32):
 
             content = str(content)
 
-            p = "<p.*>.*<\/p>"
-            br = "<br\/> *"
-            offer = "\[.*\]"
-            day = "[0-9]+\.+[0-9].[0-9].?"
-            email = "[a-zA-Z0-9]*@[a-zA-Z]*\.[a-zA-Z]*\.[a-zA-Z]*+"
-            info = "<!.*>"
-            slogan = ".*연합뉴스\)"
-            reporter = ".* =|.reporter.+|profile.*|<*name.*>"
-            summary = "<[^\>]*><\/.*>"
-            a = "<a.*>.*<\/a>"
-            em = "<em.*>.*"
-            button = "<button.*>.*<\/button>.*"
-            tag = "<[^\>]*>"
-            content = re.sub(p, "", content)
-            content = re.sub(br, "", content)
-            content = re.sub(offer, "", content)
-            content = re.sub(day, "", content)
-            content = re.sub(email, "", content)
-            content = re.sub(info, "", content)
-            content = re.sub(reporter, "", content)
-            content = re.sub(slogan, "", content)
-            content = re.sub(summary, "", content)
-            content = re.sub(a, "", content)
-            content = re.sub(em, "", content)
-            content = re.sub(button, "", content)
-            content= re.sub(tag, "", content)
+            reg = re.finditer("(.{3}=연합뉴스\)).*[a-zA-Z0-9]\@[a-zA-Z]*\.[a-zA-Z]*\.[a-zA-Z]*", content)
+        
 
-            # print("title: ", title)
-            # print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
-    
+            url = "https://news.like.naver.com/v1/search/contents?q=NEWS%5Bne_001_{}%5D".format(article[-10:])
+            RES = requests.get(url, headers=headers)
+            data = json.loads(RES.text)
+            label = data["contents"][0]["reactionTextMap"]["ko"]
+
+            for i in range(len(data["contents"][0]["reactions"])):
+                reaction = data["contents"][0]["reactions"][i]["reactionType"]
+                count = data["contents"][0]["reactions"][i]["count"]
+                print(label[f"{reaction}"], count)
 
         page += 1
 
