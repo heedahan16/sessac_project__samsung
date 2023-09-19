@@ -85,7 +85,33 @@ for date in range(1, 32):
                 # 일반 기사
                 title = bs.select_one("div#ct h2").text
                 content = bs.select_one("article#dic_area")
+                url = "https://news.like.naver.com/v1/search/contents?q=NEWS%5Bne_001_{}%5D".format(article[-10:])
+                RES = requests.get(url, headers=headers)
+                data = json.loads(RES.text)
                 
+                for i in range(len(data["contents"][0]["reactions"])):
+                    reaction = data["contents"][0]["reactions"][i]["reactionType"]
+                    count = data["contents"][0]["reactions"][i]["count"]
+                    print(reaction, count)
+                
+                # print(data["contents"][2])
+                # print(data["contents"][3])
+                
+
+                # print(data["contents"][0]["reactions"][0])
+                # print(data["contents"][0]["reactions"][1])
+                # print(data["contents"][0]["reactions"][2])
+                # print(data["contents"][0]["reactions"][3])
+                # print(data["contents"][0]["reactions"][4])
+                # print(data["contents"][0]["reactions"][5])
+                print()
+                print()
+                print()
+
+
+                print()
+
+
             except:
                 try:
                     # 스포츠 기사
@@ -105,12 +131,13 @@ for date in range(1, 32):
                 #         except:
                 #             content = bs.select_one("div.end_body_wrp")
                 except:
-                    title = bs.select_one("div#content h2").text.replace("\n", "").strip()
-                    content = bs.select_one("div#contents article.dic_area")
-                    # try:
-                    #     content = bs.select_one("div.end_body_wrp div#articBody")
-                    # except:
-                    #     content = bs.select_one("div.end_body_wrp")
+                    try:
+                        title = bs.select_one("div#content h2").text.replace("\n", "").strip()
+                        # content = bs.select_one("div#contents article.dic_area")
+                    
+                        content = bs.select_one("div.end_body_wrp div#articBody")
+                    except:
+                        content = bs.select_one("div.end_body_wrp")
 
             content = str(content)
 
@@ -144,16 +171,10 @@ for date in range(1, 32):
             # print("title: ", title)
             # print("content: ",content.replace("\n", "").replace(" , 닫기구독자응원수", "").replace("닫기구독자응원수가이드 닫기", "").replace("S&amp;P", "S&P").strip())
     
-            res = requests.get("https://sports.like.naver.com/v1/search/contents?suppress_response_codes=true&callback=jQuery111304373371927169414_1695020995540&q=SPORTS%5Bne_001_0014106287%5D%7CJOURNALIST%5B56735(period)%5D%7CSPORTS_MAIN%5Bne_001_0014106287%5D&isDuplication=false&cssIds=MULTI_PC%2CSPORTS_PC&_=1695020995541", headers=headers)
+            
 
-            data = re.finditer("{.+}", res.text)
-            for datum in data:
-                # print(datum.group())
+            
 
-                result = json.loads(datum.group())
-                reaction = result["contents"][0]["reactions"][0]["reactionType"]
-                count = result["contents"][0]["reactions"][0]["count"]
-                print(reaction, count)
             
         page += 1
 
