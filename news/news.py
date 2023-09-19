@@ -83,16 +83,17 @@ for date in range(1, 32):
 
             try:
                 # 일반 기사
-                title = bs.select_one("div#ct h2").text
+                title = bs.select_one("h2#title_area").text
                 content = bs.select_one("article#dic_area")
-                    
+                category = bs.select_one("em.media_end_categorize_item").text
+
             except:
-                try:
-                    # 스포츠 기사
-                    title = bs.select_one("div.news_headline h4").text
-                    content = bs.select_one("div#newsEndContents")
-                    # print(title)
-                    # print(content)
+            # try:
+                # 스포츠 기사
+                title = bs.select_one("div.news_headline h4").text
+                content = bs.select_one("div#newsEndContents")
+                category = "스포츠"
+                    
                 # except:
                 #     print("None!!!!!!!!!!!!!!!!!!!!!!")
                 #     try :
@@ -104,14 +105,21 @@ for date in range(1, 32):
                 #             content = bs.select_one("div.end_body_wrp div#articBody")
                 #         except:
                 #             content = bs.select_one("div.end_body_wrp")
-                except:
-                    try:
-                        title = bs.select_one("div#content h2").text.replace("\n", "").strip()
-                        # content = bs.select_one("div#contents article.dic_area")
+                # except:
+                #     print("다른 뉴스")
+                    # try:
+                    #     title = bs.select_one("div#content h2").text.replace("\n", "").strip()
+                    #     # content = bs.select_one("div#contents article.dic_area")
                     
-                        content = bs.select_one("div.end_body_wrp div#articBody")
-                    except:
-                        content = bs.select_one("div.end_body_wrp")
+                    #     content = bs.select_one("div.end_body_wrp div#articBody")
+                    # except:
+                    #     content = bs.select_one("div.end_body_wrp")
+
+            # print(title)
+            # print(content)
+            print(category)
+            print()
+            print()
 
             content = str(content)
 
@@ -126,7 +134,7 @@ for date in range(1, 32):
             for i in range(len(data["contents"][0]["reactions"])):
                 reaction = data["contents"][0]["reactions"][i]["reactionType"]
                 count = data["contents"][0]["reactions"][i]["count"]
-                print(label[f"{reaction}"], count)
+                # print(label[f"{reaction}"], count)
 
         page += 1
 
